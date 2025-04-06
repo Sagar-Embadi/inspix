@@ -40,7 +40,10 @@ const UserSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
       }],
-    friendRequests: [],
+    saved: [{
+        type:Schema.Types.ObjectId,
+        ref:'Post'
+    }],
     posts: [],
     notifications: [{
         type: { type: String, enum: ['like', 'comment', 'follow', 'mention'] },

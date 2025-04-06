@@ -1,0 +1,146 @@
+.home {
+  position: absolute;
+  left: 250px;
+  padding: 0px 150px;
+}
+.post-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 1px 1px 10px rgb(130, 129, 129);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid grey;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+}
+.profile-pic,.likesModel>img, .commentForm > img {
+  min-width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+.username {
+  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+}
+.location {
+  font-size: 14px;
+  display: block;
+  margin-top: 2px;
+}
+.more-options {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.post-media {
+  width: 100%;
+  position: relative;
+}
+.heart{
+  display: none;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  font-size: 50px;
+}
+.post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.post-actions {
+  padding: 8px 16px;
+  display: flex;
+  border-top: 1px solid grey;
+}
+.post-actions div {
+  background: none;
+  border: none;
+  font-size: 24px;
+  margin-right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.post-actions div .count {
+  font-size: 16px;
+  opacity: 0.8;
+}
+.post-actions .save-btn {
+  margin-left: auto;
+  margin-right: 0;
+  font-size: 22px;
+}
+.post-details {
+  padding: 0 16px 12px;
+}
+.caption {
+  margin-bottom: 8px;
+}
+.caption-username {
+  font-weight: bolder;
+  font-size: 20px;
+  margin-right: 5px;
+}
+.timestamp {
+  color: #8e8e8e;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.likesModel{
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+}
+.commentForm{
+  width: 100%;
+  display: flex;
+}
+.modalFooter{
+  padding: 10px;
+}
+.commentsModal{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.commentsModal > img{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+@media  screen and (max-width:426px) {
+  .home{
+    position: relative;
+    left: 0px;
+    top: 40px;
+    padding: 0px;
+    padding-bottom: 80px;
+  }
+}
+@media  (min-width:426px) and (max-width:769px) {
+  .home{
+    position: absolute;
+    left: 15vw;
+    top: 40px;
+    padding: 0px;
+  }
+}

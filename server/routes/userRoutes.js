@@ -90,7 +90,10 @@ router.get('/users', async (req, res) => {
 // Get a user by ID
 router.get('/users/:id', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate("followers","username profilePicture").populate("following","username profilePicture");
+        let user = await User.findById(req.params.id).populate("followers","username profilePicture").populate("following","username profilePicture").populate('saved', 'title media location author likes comments createdAt updatedAt');
+        user = await user.populate('saved.author','username profilePicture')
+        user = await user.populate("saved.likes",'username profilePicture')
+        user = await user.populate("saved.comments.user",'username profilePicture')
         if (!user) {
             return res.status(404).send();
         }

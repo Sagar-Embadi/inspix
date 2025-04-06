@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable react-refresh/only-export-components */
+import React, { useState, createContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import DashBoard from "./Components/Dashboard/Dashboard";
+import Register from "./Components/Register/Register";
+import Login from "./Components/Login/Login";
+import { Profile } from './Pages/Profile/Profile';
+import { Home } from "./Pages/Home/Home";
+import { Search } from "./Pages/Search/Search";
+import { Messages } from './Pages/Messages/Messages';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const store = createContext();
 
+const App = () => {
+  const [token, setToken] = useState(null);
+  const [update, setUpdate] = useState(0);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <store.Provider value={[update, setUpdate, token, setToken]}>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" Component={Register} />
+        <Route path="/" element={
+            localStorage.getItem("token") ? ( <DashBoard /> ) : ( <Navigate to="/login" replace /> )
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="search" element={<Search />} />
+          <Route path="messages" element={<Messages/>} />
+          <Route path="profile/:id" element={<Profile/>} />
+        </Route>
+      </Routes>
+    </store.Provider>
+  );
+};
 
-export default App
+export default App;

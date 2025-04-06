@@ -1,0 +1,47 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+.forms{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+.login_form_box{
+    border: 2px solid black;
+    padding: 20px;
+    width: 300px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-content: center;
+    border-radius: 10px;
+}
+.login_form_box > img{
+    width: 95%;
+}
+
+.login_form_box > form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.navigate_box, .guest{
+    border: 2px solid black;
+    padding: 10px 20px;
+    width: 300px;
+    height: 70px;
+    border-radius: 10px;
+}
+.navigate_box > p{
+    margin: 0%;
+}
+.navigate_box > span{
+    color: blue;
+    cursor: pointer;
+}
+.guest{
+    cursor: pointer;
+}
