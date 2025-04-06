@@ -24,6 +24,10 @@ mongoose.connect(process.env.MONGODB_URL, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
 
+app.get('/',(req,res)=>{
+    res.write("Server is running.....")
+    res.end()
+})
 // Use routes
 app.use('/api', userRoutes);
 app.use('/api', postRoutes);
