@@ -167,7 +167,7 @@ export function Home() {
                         <TiArrowForwardOutline />
                       </div>
                       <div className="save-btn" title="Save" onClick={()=>handleSave(x,index)}>
-                        {(loggedUser.saved).includes(x._id)?<FaBookmark /> :<FaRegBookmark/>}
+                        {localStorage.getItem('loggedUser')&&(loggedUser.saved).includes(x._id)?<FaBookmark /> :<FaRegBookmark/>}
                       </div>
                     </div>
 
