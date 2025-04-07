@@ -17,11 +17,11 @@ export function Search() {
   useEffect(() => {
     document.title="Search"
     axios
-      .get("http://localhost:5000/api/users/")
+      .get("https://inspix-backend.onrender.com/api/users/")
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
     axios
-      .get("http://localhost:5000/api/posts/")
+      .get("https://inspix-backend.onrender.com/api/posts/")
       .then((res) => {
         // console.log(res.data);
         setPosts(res.data);

@@ -26,7 +26,7 @@ const Login = () => {
     // console.log(data);
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/login", data)
+      .post("https://inspix-backend.onrender.com/api/login", data)
       .then((res) => {
         setToken(res.data.token);
         localStorage.setItem("token", JSON.stringify(res.data.token));

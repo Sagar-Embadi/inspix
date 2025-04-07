@@ -52,7 +52,7 @@ export function MainNav({loggedUser}){
     post.author = loggedUser._id
     if ((post.media) && (post.usersId)){
       console.log(post)
-      axios.post("http://localhost:5000/api/posts/",post).then(res=>{
+      axios.post("https://inspix-backend.onrender.com/api/posts/",post).then(res=>{
       alert("Post Uploaded Succesfully")
       setUpdate(update+1)
       }).catch(err=>console.error(err))

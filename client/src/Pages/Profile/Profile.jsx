@@ -28,14 +28,14 @@ export function Profile() {
     // console.log(id)
     document.title="Profile"
     axios
-      .get(`http://localhost:5000/api/users/${id}`)
+      .get(`https://inspix-backend.onrender.com/api/users/${id}`)
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
         setEditData(res.data);
       })
       .catch((err) => console.error(err));
-    axios.get("http://localhost:5000/api/posts").then((res) => {
+    axios.get("https://inspix-backend.onrender.com/api/posts").then((res) => {
       // console.log(res.data);
       // console.log(res.data.filter(x=>x.usersId === `67d3f1bed71908396f5c3030`))
       setPosts(res.data.filter((x) => x.usersId === id));
@@ -68,7 +68,7 @@ export function Profile() {
   };
   const handleEditDetails = async () => {
     await axios
-      .patch(`http://localhost:5000/api/users/${data._id}`, editData)
+      .patch(`https://inspix-backend.onrender.com/api/users/${data._id}`, editData)
       .then((res) => {
         // console.log(res.data)
         alert("updated successfully");
@@ -78,12 +78,12 @@ export function Profile() {
   };
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5000/api/users/${id}`)
+      .delete(`https://inspix-backend.onrender.com/api/users/${id}`)
       .then((deleted) => alert("deleted"));
   };
   const handleDeletePost = (x) => {
     axios
-      .delete(`http://www.localhost:5000/api/posts/${x._id}`)
+      .delete(`https://inspix-backend.onrender.com/api/posts/${x._id}`)
       .then((res) => {
         alert("post Deleted");
         setUpdate(update + 1);
@@ -108,10 +108,10 @@ export function Profile() {
       su.push(loggedUser._id);
     }
     try {
-      axios.patch(`http://localhost:5000/api/users/${loggedUser._id}`, {
+      axios.patch(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}`, {
         following: lgu,
       });
-      axios.patch(`http://localhost:5000/api/users/${id}`, { followers: su });
+      axios.patch(`https://inspix-backend.onrender.com/api/users/${id}`, { followers: su });
       setUpdate(update + 1);
     } catch (err) {
       console.log(err);

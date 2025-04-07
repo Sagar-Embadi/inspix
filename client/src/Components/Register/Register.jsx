@@ -19,7 +19,7 @@ const Register = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/users/", data)
+      .post("https://inspix-backend.onrender.com/api/users/", data)
       .then((res) => {
         alert(res.data);
         setData({

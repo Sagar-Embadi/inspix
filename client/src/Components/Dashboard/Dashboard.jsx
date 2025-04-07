@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     let token = JSON.parse(localStorage.getItem("token"));
     axios
-      .get("http://localhost:5000/api/loggeduser", {
+      .get("https://inspix-backend.onrender.com/api/loggeduser", {
         headers: {
           "x-token": token,
         },

@@ -7,6 +7,8 @@ import axios from "axios";
 import { format } from "date-fns";
 import { store } from "../../App";
 import { Button, Form, FormGroup, Modal, ModalHeader, ModalTitle } from "react-bootstrap";
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 export function Home() {
   const [loggedUser,setLoggedUser] = useState({});
   const [update, setUpdate] = useState(store);
@@ -28,7 +30,7 @@ export function Home() {
   useEffect(() => {
     document.title="Home"
     axios
-      .get("http://localhost:5000/api/posts/")
+      .get("https://inspix-backend.onrender.com/api/posts/")
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
@@ -36,7 +38,7 @@ export function Home() {
       .catch((err) => console.error(err));
       let token = JSON.parse(localStorage.getItem("token"));
     axios
-      .get("http://localhost:5000/api/loggeduser", {
+      .get("https://inspix-backend.onrender.com/api/loggeduser", {
         headers: {
           "x-token": token,
         },
@@ -58,7 +60,7 @@ export function Home() {
       likes = likes.filter((x) => x._id !== loggedUser._id);
     }
     axios
-      .patch(`http://localhost:5000/api/posts/${x._id}`, { likes })
+      .patch(`https://inspix-backend.onrender.com/api/posts/${x._id}`, { likes })
       .then(() => {
         setUpdate(update + 1);
         let dd = document.querySelectorAll(".heart");
@@ -76,7 +78,7 @@ export function Home() {
     comments.push(commentForm)
     console.log(comments);
     
-    axios.patch(`http://localhost:5000/api/posts/${selectedPost._id}`, { comments }).then(()=>setUpdate(update-1)).catch(err=>console.log(err))
+    axios.patch(`https://inspix-backend.onrender.com/api/posts/${selectedPost._id}`, { comments }).then(()=>setUpdate(update-1)).catch(err=>console.log(err))
     
   }
   const handleSave = (x) =>{
@@ -90,7 +92,7 @@ export function Home() {
     localStorage.setItem("loggedUser",JSON.stringify(loggedUser))
     console.log(x,saved);
     axios
-      .patch(`http://localhost:5000/api/users/${loggedUser._id}`, {saved})
+      .patch(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}`, {saved})
       .then(() => {
         // console.log(res.data)
         setUpdate(update + 1);
@@ -218,7 +220,16 @@ export function Home() {
       )}
           </>
         ) : (
-          <h1>Loading...</h1>
+          <div style={{display:'flex',justifyContent:'center'}}>
+            <Stack spacing={1}>
+            {/* For variant="text", adjust the height via font-size */}
+            <Skeleton variant="text" sx={{ fontSize: '3rem',width:'90vw' }} />
+            {/* For other variants, adjust the size with `width` and `height` */}
+            <Skeleton variant="circular" width={"30vw"} height={"30vw"} />
+            <Skeleton variant="rectangular" width={"90vw"} height={80} />
+            <Skeleton variant="rounded" width={"90vw"} height={80} />
+          </Stack>
+          </div>
         )}
       </div>}
     </>
