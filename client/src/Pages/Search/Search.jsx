@@ -76,7 +76,7 @@ export function Search() {
                     srcSet={`${item.media}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     src={`${item.media}?w=248&fit=crop&auto=format`}
                     alt={item.title}
-                    loading="lazy"
+                    loading="eager"
                   />
                 </ImageListItem>
               ))}
