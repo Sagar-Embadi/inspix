@@ -8,6 +8,7 @@ import { Profile } from './Pages/Profile/Profile';
 import { Home } from "./Pages/Home/Home";
 import { Search } from "./Pages/Search/Search";
 import { Messages } from './Pages/Messages/Messages';
+import Notifications from "./Pages/Notifications/Notifications";
 
 export const store = createContext();
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="messages" element={<Messages/>} />
+          <Route path="notifications" element={<Notifications/>} />
           <Route path="profile/:id" element={<Profile/>} />
         </Route>
       </Routes>

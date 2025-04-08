@@ -8,7 +8,7 @@ import { Profile } from "../../Pages/Profile/Profile";
 import { Home } from "../../Pages/Home/Home";
 import { Search } from "../../Pages/Search/Search";
 import { Messages } from "../../Pages/Messages/Messages";
-
+import Notifications from "../../Pages/Notifications/Notifications";
 const Dashboard = () => {
   const [loggedUser, setLoggedUser] = useState({});
   const [update] = useContext(store);
@@ -40,6 +40,7 @@ const Dashboard = () => {
           />
           <Route path="/search" element={<Search />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
       </div>
     </div>

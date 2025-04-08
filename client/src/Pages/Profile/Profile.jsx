@@ -164,7 +164,7 @@ export function Profile() {
                       ? "Un Follow"
                       : "Follow"}
                   </button>
-                  <button className="message">Message</button>
+                  <button className="message_btn">Message</button>
                 </div>
               )}
               <div className="name_bio">

@@ -80,7 +80,7 @@
         display: flex;
         gap: 20px;
     }
-    .message{
+    .message,.notifications{
         display: none;
     }
 }

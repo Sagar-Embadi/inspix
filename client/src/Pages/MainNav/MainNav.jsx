@@ -70,7 +70,7 @@ export function MainNav({loggedUser}){
       <div className="top_nav">
         <h1>INSPIX</h1>
         <div>
-          <FaRegHeart className="link"/>
+          <Link className="link" to='notifications' ><FaRegHeart/></Link>
           <Link className="link" to='messages' ><BiSolidMessageRoundedDetail/></Link>
         </div>
       </div>
@@ -80,6 +80,7 @@ export function MainNav({loggedUser}){
               <Link className="link" to='/' ><TiHome className="icon"/> <span>Home</span></Link>
               <Link className="link" to='search' ><IoSearch /> <span>Search</span></Link>
               <Link className="link message" to='messages' ><BiSolidMessageRoundedDetail/> <span>Messages</span></Link>
+              <Link className="link notifications" to='notifications' ><FaRegHeart/> <span>Notifications</span></Link>
               <Link className="link" onClick={handleShow}><FiPlusSquare/> <span>Post</span></Link>
               <Link className="link" to={`profile/${loggedUser._id}`} onClick={()=>setUpdate(update+1)}><img src={loggedUser.profilePicture} alt="" className="profilePic"/> <span>Profile</span></Link>
               <button className="logout_btn" onClick={()=>{

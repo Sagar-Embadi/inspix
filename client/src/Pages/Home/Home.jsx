@@ -131,7 +131,6 @@ export function Home() {
                 {data.map((x, index) => {
                   let date = format(new Date(x.createdAt), "MMM d");
                   return (
-                    <div key={index}>
                       <div className="post-card" key={index}>
                         <div className="post-header">
                           <img
@@ -214,7 +213,6 @@ export function Home() {
                           <div className="timestamp">{date}</div>
                         </div>
                       </div>
-                    </div>
                   );
                 })}
               </div>
@@ -281,7 +279,7 @@ export function Home() {
             </>
           ) : (
             <div className="loading_effect" key={1}>
-              <Card sx={{ maxWidth: 345, m: 2 }}>
+              <Card sx={{ maxWidth: "100%", m: 2 }}>
                 <CardHeader
                   avatar={
                     <Skeleton
@@ -324,7 +322,7 @@ export function Home() {
                   </>
                 </CardContent>
               </Card>
-              <Card sx={{ maxWidth: 345, m: 2 }}>
+              <Card sx={{ maxWidth: "100%", m: 2 }}>
                 <CardHeader
                   avatar={
                     <Skeleton
