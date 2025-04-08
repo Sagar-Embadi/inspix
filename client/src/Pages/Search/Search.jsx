@@ -70,8 +70,8 @@ export function Search() {
         <div className="posts">
           <Box sx={{ width: "100%", height: "100%", overflowY: "scroll",scrollbarWidth: "none" }}>
             <ImageList variant="masonry" cols={3} gap={2}>
-              {posts.map((item) => (
-                <ImageListItem key={item.img}>
+              {posts.map((item,index) => (
+                <ImageListItem key={index}>
                   <img
                     srcSet={`${item.media}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     src={`${item.media}?w=248&fit=crop&auto=format`}

@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 .profile{
-    padding: 30px 100px;
+    padding: 30px 50px;
+    width: 80vw;
     position: absolute;
     left: 250px;
 }
@@ -13,14 +14,14 @@
     align-items: center;
     gap: 20px;
 }
-.profile_pic{
-    padding: 10px 70px;
+.profile_pic {
+    padding: 10px 40px;
 }
 .profile_pic > img{
     border: 2px solid black;
     border-radius: 100em;
-    width: 250px;
-    height: 250px;
+    width: 230px;
+    height: 230px;
     object-fit: cover;
 }
 .profile_following{
@@ -28,7 +29,6 @@
     flex-direction: column;
     gap: 20px;
     width: 680px;
-    padding: 0px 50px;
 }
 .username{
     display: flex;
@@ -103,16 +103,18 @@ audio{
 .select_posts{
     display: flex;
     justify-content: space-around;
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+    margin-bottom: 10px;
+    padding: 5px;
 }
 .post_section{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
     gap: 10px;
-    flex-wrap: wrap;
 }
 .post_card{
-    width: 260px;
     height: 260px;
-    background-color: rgba(0, 0, 0, 0.7);
 }
 .post_card > img{
     width: 100%;

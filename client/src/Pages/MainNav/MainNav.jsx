@@ -19,8 +19,14 @@ export function MainNav({loggedUser}){
   const[update,setUpdate] = useContext(store)
   const[token,setToken] = useContext(store)
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false)
+    document.title='Inspix'
+  };
+  const handleShow = () => {
+    setShow(true)
+    document.title='Post'
+  };
   const [post,setPost] = useState({
     media:"",
     title:"",
@@ -75,7 +81,7 @@ export function MainNav({loggedUser}){
               <Link className="link" to='search' ><IoSearch /> <span>Search</span></Link>
               <Link className="link message" to='messages' ><BiSolidMessageRoundedDetail/> <span>Messages</span></Link>
               <Link className="link" onClick={handleShow}><FiPlusSquare/> <span>Post</span></Link>
-              <Link className="link" to={`profile/${loggedUser._id}`} onClick={()=>setUpdate(update+1)}><img src={loggedUser.profilePicture} alt="profile" className="profilePic"/> <span>Profile</span></Link>
+              <Link className="link" to={`profile/${loggedUser._id}`} onClick={()=>setUpdate(update+1)}><img src={loggedUser.profilePicture} alt="" className="profilePic"/> <span>Profile</span></Link>
               <button className="logout_btn" onClick={()=>{
                   setToken(null)
                   localStorage.removeItem('token')

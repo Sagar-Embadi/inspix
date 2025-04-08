@@ -1,9 +1,10 @@
 .home {
   position: absolute;
   left: 250px;
+  width: 80vw;
   padding: 0px 150px;
 }
-.post-card {
+.post-card .loading_effect{
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
@@ -133,6 +134,7 @@
     left: 0px;
     top: 40px;
     padding: 0px;
+    width: 100vw;
     padding-bottom: 80px;
   }
 }

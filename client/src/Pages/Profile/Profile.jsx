@@ -33,6 +33,7 @@ export function Profile() {
         // console.log(res.data);
         setData(res.data);
         setEditData(res.data);
+        document.title = `Profile-${res.data.username}`
       })
       .catch((err) => console.error(err));
     axios.get("https://inspix-backend.onrender.com/api/posts").then((res) => {
@@ -176,7 +177,7 @@ export function Profile() {
               </div>
             </div>
           </div>
-          <hr />
+
           <div className="view_posts">
             <div className="select_posts">
             <h2 title="posts" onClick={()=>handlePosts('posts')}><IoGrid /> POSTS</h2>
@@ -187,7 +188,7 @@ export function Profile() {
                 return (
                   <div className="post_card" key={x.id}>
                     <img src={x.media} alt={data.caption} />
-                    <h3>{x.caption}</h3>
+                    {/* <h3>{x.caption}</h3> */}
                     {/* <p>Likes : {x.likes.length}</p>
                     <p>Comments : {x.comments.length}</p>
                     <Button
