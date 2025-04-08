@@ -73,8 +73,8 @@ export function Search() {
               {posts.map((item,index) => (
                 <ImageListItem key={index}>
                   <img
-                    srcSet={`${item.media}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    src={`${item.media}?w=248&fit=crop&auto=format`}
+                    srcSet={`https${item.media.slice(4,)}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    src={`https${item.media.slice(4,)}?w=248&fit=crop&auto=format`}
                     alt={item.title}
                     loading="eager"
                   />
