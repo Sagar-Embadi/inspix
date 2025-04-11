@@ -180,15 +180,14 @@ export function Profile() {
 
           <div className="view_posts">
             <div className="select_posts">
-            <h2 title="posts" onClick={()=>handlePosts('posts')}><IoGrid /> POSTS</h2>
-            <h2 title="saved" onClick={()=>handlePosts('saved')}><FaRegBookmark/> SAVED</h2>
+            <h2 title="posts" onClick={()=>handlePosts('posts')}><IoGrid /> <span>POSTS</span></h2>
+            <h2 title="saved" onClick={()=>handlePosts('saved')}><FaRegBookmark/><span>SAVED</span> </h2>
             </div>
             <div className="post_section">
               {displayPosts.map((x) => {
                 return (
                   <div className="post_card" key={x.id}>
                     <img src={x.media} alt={data.caption} />
-                    {/* <h3>{x.caption}</h3> */}
                     {/* <p>Likes : {x.likes.length}</p>
                     <p>Comments : {x.comments.length}</p>
                     <Button

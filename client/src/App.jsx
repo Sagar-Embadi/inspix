@@ -9,6 +9,7 @@ import { Home } from "./Pages/Home/Home";
 import { Search } from "./Pages/Search/Search";
 import { Messages } from './Pages/Messages/Messages';
 import Notifications from "./Pages/Notifications/Notifications";
+import { ToastContainer } from "react-toastify";
 
 export const store = createContext();
 
@@ -17,6 +18,7 @@ const App = () => {
   const [update, setUpdate] = useState(0);
   return (
     <store.Provider value={[update, setUpdate, token, setToken]}>
+      <ToastContainer/>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" Component={Register} />

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import logo_wt from "../../Logo/logo_wt.jpeg";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { showToastify } from "../../helpers/showToastify";
 const Register = () => {
   let navigate = useNavigate();
   const [data, setData] = useState({
@@ -13,6 +14,8 @@ const Register = () => {
     password: "",
     confirmpassword: "",
   });
+  useEffect(() => {
+    document.title = "Register";})
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -21,7 +24,7 @@ const Register = () => {
     axios
       .post("https://inspix-backend.onrender.com/api/users/", data)
       .then((res) => {
-        alert(res.data);
+        showToastify("success", res.data);
         setData({
           username: "",
           email: "",
@@ -31,7 +34,7 @@ const Register = () => {
         navigate("/login");
       })
       .catch((err) => {
-        alert(err.response.data);
+        showToastify("error", err.response.data);
         console.error(err);
       });
   };

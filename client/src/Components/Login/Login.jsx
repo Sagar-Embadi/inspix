@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "./Login.css";
 import logo_wt from "../../Logo/logo_wt.jpeg";
@@ -6,6 +6,7 @@ import { store } from "../../App";
 import { Navigate, useNavigate } from "react-router";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { showToastify } from "@/helpers/showToastify";
 const Login = () => {
   let navigate = useNavigate();
   const [token, setToken] = useContext(store);
@@ -13,6 +14,13 @@ const Login = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    document.title = "Login";
+    let token = JSON.parse(localStorage.getItem("token"))
+    if (token) {
+      navigate("/");
+    }
+  }, [token]);
 //   const guest = ()=>{
 //     setData({
 //         email: "test@gmail.com",
@@ -25,32 +33,32 @@ const Login = () => {
   const submitHandler = (e) => {
     // console.log(data);
     e.preventDefault();
+    if (data.email === "" || data.password === "") {
+      showToastify("error", "Please fill all fields");
+      return;
+    }
     axios
       .post("https://inspix-backend.onrender.com/api/login", data)
       .then((res) => {
         setToken(res.data.token);
         localStorage.setItem("token", JSON.stringify(res.data.token));
-        alert("login Successfull");
+        showToastify("success", "Login Successfully")
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => showToastify("error",err.response.data));
   };
-  if (token) {
-    return <Navigate to="/" />;
-  }
   return (
     <div className="forms">
       <div className="login_form_box">
         <img src={logo_wt} alt="logo" />
         <form onSubmit={submitHandler} autoComplete="off">
           <TextField
-            required
             type="email"
             onChange={changeHandler}
             name="email"
             label="Email"
           />
           <TextField
-            required
+            
             type="password"
             onChange={changeHandler}
             name="password"
