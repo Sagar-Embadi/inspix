@@ -73,4 +73,29 @@ router.delete('/users/:userId/notifications/:notificationId', async (req, res) =
   }
 });
 
+router.patch('/:userId/notifications/:notificationId', async (req, res) => {
+  try {
+      const { read } = req.body;
+
+      const user = await User.findOneAndUpdate(
+          {
+              _id: req.params.userId,
+              "notifications._id": req.params.notificationId
+          },
+          {
+              $set: { "notifications.$.read": read }
+          },
+          { new: true }
+      );
+
+      if (!user) {
+          return res.status(404).send('User or notification not found');
+      }
+
+      res.status(200).send('Notification updated');
+  } catch (error) {
+      res.status(500).send(error.message);
+  }
+});
+
 export { router as notificationRoutes };
