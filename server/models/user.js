@@ -46,9 +46,11 @@ const UserSchema = new mongoose.Schema({
     }],
     posts: [],
     notifications: [{
-        type: { type: String, enum: ['like', 'comment', 'follow', 'mention'] },
+        type: { type: String,  },
+        postId: { type: Schema.Types.ObjectId, ref: 'Post' },
         fromUser: { type: Schema.Types.ObjectId, ref: 'User' },
         createdAt: { type: Date, default: Date.now },
+        read: { type: Boolean, default: false },
     }],
 })
 

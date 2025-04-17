@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import cors from "cors"
 import { userRoutes } from "./routes/userRoutes.js"
 import { postRoutes } from "./routes/postRoutes.js"
+import { notificationRoutes } from "./routes/notificationRoutes.js"
 
 // Load environment variables
 dotenv.config();
@@ -31,6 +32,7 @@ app.get('/',(req,res)=>{
 // Use routes
 app.use('/api', userRoutes);
 app.use('/api', postRoutes);
+app.use('/api', notificationRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
