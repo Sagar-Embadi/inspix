@@ -23,6 +23,10 @@ export function Profile() {
   const [update, setUpdate] = useContext(store);
   const [posts, setPosts] = useState([]);
   const [displayPosts, setDisplayPosts] = useState([]);
+  const notification = {
+    type: "follow",
+    fromUserId: loggedUser._id,
+  }
 
   useEffect(() => {
     // console.log(id)
@@ -112,8 +116,12 @@ export function Profile() {
       axios.patch(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}`, {
         following: lgu,
       });
-      axios.patch(`https://inspix-backend.onrender.com/api/users/${id}`, { followers: su });
-      setUpdate(update + 1);
+      axios.patch(`https://inspix-backend.onrender.com/api/users/${id}`, { followers: su }).then((res) => {
+        notification.fromUserId = loggedUser._id;
+        axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+        setUpdate(update + 1);
+      })
+      
     } catch (err) {
       console.log(err);
     }

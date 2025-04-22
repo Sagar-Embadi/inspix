@@ -82,6 +82,11 @@ export function Home() {
         setTimeout(() => {
           dd[index].style.display = "none";
         }, 500);
+        axios.post(`https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`, {
+          type: "like",
+          postId: x._id,
+          fromUserId: loggedUser._id,
+        }).catch(err=> console.error(err));
       })
       .catch((err) => console.log(err));
   };
@@ -97,7 +102,14 @@ export function Home() {
         `https://inspix-backend.onrender.com/api/posts/${selectedPost._id}`,
         { comments }
       )
-      .then(() => setUpdate(update - 1))
+      .then(() => {
+        setUpdate(update - 1)
+        axios.post(`https://inspix-backend.onrender.com/api/users/${selectedPost.usersId}/notifications`, {
+          type: "comment",
+          postId: selectedPost._id,
+          fromUserId: loggedUser._id,
+        }).catch(err=> console.error(err));
+      })
       .catch((err) => console.log(err));
   };
   const handleSave = (x) => {

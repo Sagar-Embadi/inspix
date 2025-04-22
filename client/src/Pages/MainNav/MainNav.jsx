@@ -15,6 +15,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import Badge from '@mui/material/Badge';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { TbMessageReport } from "react-icons/tb";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Switch from '@mui/material/Switch';
+import { showToastify } from "@/helpers/showToastify";
 
 export function MainNav({ loggedUser }) {
   let navigate = useNavigate();
@@ -77,8 +79,13 @@ export function MainNav({ loggedUser }) {
       axios
         .post("https://inspix-backend.onrender.com/api/posts/", post)
         .then((res) => {
-          alert("Post Uploaded Succesfully");
+          // showToastify("success", "post uploaded");
           setUpdate(update + 1);
+          axios.post(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}/notifications`, {
+            type: "post",
+            postId: res.data._id,
+            fromUserId: loggedUser._id,
+          }).then(() => showToastify("success", "post uploaded")).catch(err=> console.error(err));
         })
         .catch((err) => console.error(err));
     } else alert("Cann't Post at This Moment");
@@ -144,11 +151,12 @@ export function MainNav({ loggedUser }) {
               <DropdownMenuLabel>Menu</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem> Switch Appearance 
-                <DropdownMenuShortcut ><Switch/> </DropdownMenuShortcut>
-                </DropdownMenuItem>
+                <div style={{display:'flex',alignItems:'center',gap:'10px',paddingLeft:'10px'}}>
+                <span style={{fontSize:14}}> Switch Appearance </span>
+                <Switch/>
+                </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem> Report Problem </DropdownMenuItem>
+                <DropdownMenuItem> Report Problem <TbMessageReport style={{color:'red'}}/> </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={()=>{
                   localStorage.removeItem("token")

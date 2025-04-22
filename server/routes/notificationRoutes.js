@@ -58,43 +58,36 @@ router.delete('/users/:userId/notifications/:notificationId', async (req, res) =
           { $pull: { notifications: { _id: req.params.notificationId } } },
           { new: true }
       );
-      const notification = user.notifications.find(n => n._id.toString() === req.params.notificationId);
-      
       if (!user) {
         return res.status(404).send('User not found');
       }
-      if (!notification) {
-          return res.status(404).send('Notification not found');
-      }
-
+      
       res.status(200).send('Notification deleted');
   } catch (error) {
       res.status(500).send(error.message);
   }
 });
 
-router.patch('/:userId/notifications/:notificationId', async (req, res) => {
+router.patch('/users/:userId/notifications/:notificationId', async (req, res) => {
   try {
-      const { read } = req.body;
+    const { read } = req.body;
+    const user = await User.findById(req.params.userId);
 
-      const user = await User.findOneAndUpdate(
-          {
-              _id: req.params.userId,
-              "notifications._id": req.params.notificationId
-          },
-          {
-              $set: { "notifications.$.read": read }
-          },
-          { new: true }
-      );
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
 
-      if (!user) {
-          return res.status(404).send('User or notification not found');
-      }
+    const notification = user.notifications.id(req.params.notificationId);
+    if (!notification) {
+      return res.status(404).send('Notification not found');
+    }
 
-      res.status(200).send('Notification updated');
+    notification.read = read;
+    await user.save();
+
+    res.status(200).send('Notification updated');
   } catch (error) {
-      res.status(500).send(error.message);
+    res.status(500).send(error.message);
   }
 });
 
