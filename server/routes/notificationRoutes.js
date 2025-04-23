@@ -7,7 +7,7 @@ router.get("/users/:userId/notifications", async (req, res) => {
     const user = await User.findById(req.params.userId)
       .populate({
         path: "notifications.fromUser",
-        select: "username profilePicture",
+        select: "username profilePicture followers",
       })
       .populate({
         path: "notifications.postId",

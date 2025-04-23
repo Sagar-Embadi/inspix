@@ -111,14 +111,16 @@ export function Profile() {
       // console.log(lgu);
       su = su.filter((x) => x._id !== loggedUser._id);
       su.push(loggedUser._id);
+      notification.fromUserId = loggedUser._id;
+        axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
     }
     try {
       axios.patch(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}`, {
         following: lgu,
       });
       axios.patch(`https://inspix-backend.onrender.com/api/users/${id}`, { followers: su }).then((res) => {
-        notification.fromUserId = loggedUser._id;
-        axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+        // notification.fromUserId = loggedUser._id;
+        // axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
         setUpdate(update + 1);
       })
       
@@ -192,9 +194,9 @@ export function Profile() {
             <h2 title="saved" onClick={()=>handlePosts('saved')}><FaRegBookmark/><span>SAVED</span> </h2>
             </div>
             <div className="post_section">
-              {displayPosts.map((x) => {
+              {displayPosts.map((x,index) => {
                 return (
-                  <div className="post_card" key={x.id}>
+                  <div className="post_card" key={index}>
                     <img src={x.media} alt={data.caption} />
                     {/* <p>Likes : {x.likes.length}</p>
                     <p>Comments : {x.comments.length}</p>

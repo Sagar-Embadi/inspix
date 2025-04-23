@@ -68,6 +68,21 @@ export function Home() {
     let userLiked = likes.filter((x) => x._id === loggedUser._id);
     if (userLiked.length <= 0) {
       likes.push(loggedUser._id);
+      let dd = document.querySelectorAll(".heart");
+      dd[index].style.display = "block";
+      setTimeout(() => {
+        dd[index].style.display = "none";
+      }, 500);
+      axios
+        .post(
+          `https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`,
+          {
+            type: "like",
+            postId: x._id,
+            fromUserId: loggedUser._id,
+          }
+        )
+        .catch((err) => console.error(err));
     } else {
       likes = likes.filter((x) => x._id !== loggedUser._id);
     }
@@ -77,16 +92,16 @@ export function Home() {
       })
       .then(() => {
         setUpdate(update + 1);
-        let dd = document.querySelectorAll(".heart");
-        dd[index].style.display = "block";
-        setTimeout(() => {
-          dd[index].style.display = "none";
-        }, 500);
-        axios.post(`https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`, {
-          type: "like",
-          postId: x._id,
-          fromUserId: loggedUser._id,
-        }).catch(err=> console.error(err));
+        // let dd = document.querySelectorAll(".heart");
+        // dd[index].style.display = "block";
+        // setTimeout(() => {
+        //   dd[index].style.display = "none";
+        // }, 500);
+        // axios.post(`https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`, {
+        //   type: "like",
+        //   postId: x._id,
+        //   fromUserId: loggedUser._id,
+        // }).catch(err=> console.error(err));
       })
       .catch((err) => console.log(err));
   };
@@ -95,7 +110,7 @@ export function Home() {
     let comments = selectedPost.comments;
     commentForm.user = loggedUser._id;
     comments.push(commentForm);
-    console.log(comments);
+    // console.log(comments);
 
     axios
       .patch(
@@ -103,12 +118,17 @@ export function Home() {
         { comments }
       )
       .then(() => {
-        setUpdate(update - 1)
-        axios.post(`https://inspix-backend.onrender.com/api/users/${selectedPost.usersId}/notifications`, {
-          type: "comment",
-          postId: selectedPost._id,
-          fromUserId: loggedUser._id,
-        }).catch(err=> console.error(err));
+        setUpdate(update - 1);
+        axios
+          .post(
+            `https://inspix-backend.onrender.com/api/users/${selectedPost.usersId}/notifications`,
+            {
+              type: "comment",
+              postId: selectedPost._id,
+              fromUserId: loggedUser._id,
+            }
+          )
+          .catch((err) => console.error(err));
       })
       .catch((err) => console.log(err));
   };
@@ -143,88 +163,86 @@ export function Home() {
                 {data.map((x, index) => {
                   let date = format(new Date(x.createdAt), "MMM d");
                   return (
-                      <div className="post-card" key={index}>
-                        <div className="post-header">
-                          <img
-                            src={x.author.profilePicture}
-                            alt="Profile_Picture"
-                            className="profile-pic"
-                          />
-                          <div>
-                            <span className="username">
-                              {x.author.username}
-                            </span>
-                            <span className="location">{x.location}</span>
-                          </div>
-                        </div>
-                        <div className="post-media">
-                          <img
-                            src={x.media}
-                            alt="Post content"
-                            className="post-image"
-                            onDoubleClick={() => handleLike(x, index)}
-                          />
-                          <div className="heart animate__flash">
-                            <FaHeart
-                              style={{
-                                color: "white",
-                                fontSize: 80,
-                                display: "block",
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="post-actions">
-                          <div className="like-btn" title="Like">
-                            <span onClick={() => handleLike(x, index)}>
-                              {x.likes.filter((x) => x._id === loggedUser._id)
-                                .length !== 0 ? (
-                                <FaHeart style={{ color: "red" }} />
-                              ) : (
-                                <FaRegHeart />
-                              )}
-                            </span>
-                            <span
-                              className="count"
-                              onClick={() => openModal(x, "likes")}
-                            >
-                              {x.likes.length}
-                            </span>
-                          </div>
-                          <div
-                            className="comment-btn"
-                            title="Comment"
-                            onClick={() => openModal(x, "comments")}
-                          >
-                            <FaRegComment />{" "}
-                            <span className="count">{x.comments.length}</span>
-                          </div>
-                          <div className="share-btn" title="Share">
-                            <TiArrowForwardOutline />
-                          </div>
-                          <div
-                            className="save-btn"
-                            title="Save"
-                            onClick={() => handleSave(x, index)}
-                          >
-                            {loggedUser.saved.includes(x._id) ? (
-                              <FaBookmark />
-                            ) : (
-                              <FaRegBookmark />
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="post-details">
-                          <div className="caption">
-                            <span className="caption-username">
-                              {x.author.username}
-                            </span>
-                            <span className="caption-text">{x.title}</span>
-                          </div>
-                          <div className="timestamp">{date}</div>
+                    <div className="post-card" key={index}>
+                      <div className="post-header">
+                        <img
+                          src={x.author.profilePicture}
+                          alt="Profile_Picture"
+                          className="profile-pic"
+                        />
+                        <div>
+                          <span className="username">{x.author.username}</span>
+                          <span className="location">{x.location}</span>
                         </div>
                       </div>
+                      <div className="post-media">
+                        <img
+                          src={x.media}
+                          alt="Post content"
+                          className="post-image"
+                          onDoubleClick={() => handleLike(x, index)}
+                        />
+                        <div className="heart animate__flash">
+                          <FaHeart
+                            style={{
+                              color: "white",
+                              fontSize: 80,
+                              display: "block",
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="post-actions">
+                        <div className="like-btn" title="Like">
+                          <span onClick={() => handleLike(x, index)}>
+                            {x.likes.filter((x) => x._id === loggedUser._id)
+                              .length !== 0 ? (
+                              <FaHeart style={{ color: "red" }} />
+                            ) : (
+                              <FaRegHeart />
+                            )}
+                          </span>
+                          <span
+                            className="count"
+                            onClick={() => openModal(x, "likes")}
+                          >
+                            {x.likes.length}
+                          </span>
+                        </div>
+                        <div
+                          className="comment-btn"
+                          title="Comment"
+                          onClick={() => openModal(x, "comments")}
+                        >
+                          <FaRegComment />{" "}
+                          <span className="count">{x.comments.length}</span>
+                        </div>
+                        <div className="share-btn" title="Share">
+                          <TiArrowForwardOutline />
+                        </div>
+                        <div
+                          className="save-btn"
+                          title="Save"
+                          onClick={() => handleSave(x, index)}
+                        >
+                          {loggedUser.saved.includes(x._id) ? (
+                            <FaBookmark />
+                          ) : (
+                            <FaRegBookmark />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="post-details">
+                        <div className="caption">
+                          <span className="caption-username">
+                            {x.author.username}
+                          </span>
+                          <span className="caption-text">{x.title}</span>
+                        </div>
+                        <div className="timestamp">{date}</div>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
