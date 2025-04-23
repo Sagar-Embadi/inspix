@@ -16,7 +16,7 @@ const Notifications = () => {
   useEffect(() => {
     document.title = "Notifications";
     axios
-      .get(`http://localhost:5000/api/users/${loggedUser._id}/notifications/`)
+      .get(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}/notifications/`)
       .then((res) => {
         // console.log(res.data);
         setNotifications(res.data);
