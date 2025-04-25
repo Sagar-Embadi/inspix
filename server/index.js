@@ -5,13 +5,15 @@ import cors from "cors"
 import { userRoutes } from "./routes/userRoutes.js"
 import { postRoutes } from "./routes/postRoutes.js"
 import { notificationRoutes } from "./routes/notificationRoutes.js"
+import messageRoutes from "./routes/messageRoutes.js"
+import { app, server } from "./lib/socket.js";
 
 // Load environment variables
 dotenv.config();
 
 
 // Initialize Express
-const app = express();
+// const app = express();
 app.use(cors());
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -33,9 +35,10 @@ app.get('/',(req,res)=>{
 app.use('/api', userRoutes);
 app.use('/api', postRoutes);
 app.use('/api', notificationRoutes);
+app.use('/api', messageRoutes)
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
