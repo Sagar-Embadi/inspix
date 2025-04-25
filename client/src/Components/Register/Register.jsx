@@ -6,6 +6,7 @@ import "./Register.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { showToastify } from "../../helpers/showToastify";
+import { getEnv } from "@/helpers/getEnv";
 const Register = () => {
   let navigate = useNavigate();
   const [data, setData] = useState({
@@ -22,7 +23,7 @@ const Register = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     axios
-      .post("https://inspix-backend.onrender.com/api/users/", data)
+      .post(`${getEnv('VITE_BACKEND_URL')}/api/users/`, data)
       .then((res) => {
         showToastify("success", res.data);
         setData({

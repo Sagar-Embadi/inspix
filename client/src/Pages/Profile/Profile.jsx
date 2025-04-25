@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { store } from "../../App";
 import { useParams } from "react-router-dom";
 import { FaRegBookmark } from "react-icons/fa";
+import { getEnv } from "@/helpers/getEnv";
 
 export function Profile() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ export function Profile() {
     // console.log(id)
     document.title="Profile"
     axios
-      .get(`https://inspix-backend.onrender.com/api/users/${id}`)
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`)
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
@@ -40,7 +41,7 @@ export function Profile() {
         document.title = `Profile-${res.data.username}`
       })
       .catch((err) => console.error(err));
-    axios.get("https://inspix-backend.onrender.com/api/posts").then((res) => {
+    axios.get(`${getEnv('VITE_BACKEND_URL')}/api/posts`).then((res) => {
       // console.log(res.data);
       // console.log(res.data.filter(x=>x.usersId === `67d3f1bed71908396f5c3030`))
       setPosts(res.data.filter((x) => x.usersId === id));
@@ -73,7 +74,7 @@ export function Profile() {
   };
   const handleEditDetails = async () => {
     await axios
-      .patch(`https://inspix-backend.onrender.com/api/users/${data._id}`, editData)
+      .patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${data._id}`, editData)
       .then((res) => {
         // console.log(res.data)
         alert("updated successfully");
@@ -83,12 +84,12 @@ export function Profile() {
   };
   const handleDelete = () => {
     axios
-      .delete(`https://inspix-backend.onrender.com/api/users/${id}`)
+      .delete(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`)
       .then((deleted) => alert("deleted"));
   };
   const handleDeletePost = (x) => {
     axios
-      .delete(`https://inspix-backend.onrender.com/api/posts/${x._id}`)
+      .delete(`${getEnv('VITE_BACKEND_URL')}.com/api/posts/${x._id}`)
       .then((res) => {
         alert("post Deleted");
         setUpdate(update + 1);
@@ -112,15 +113,15 @@ export function Profile() {
       su = su.filter((x) => x._id !== loggedUser._id);
       su.push(loggedUser._id);
       notification.fromUserId = loggedUser._id;
-        axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+        axios.post(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}/notifications`, notification).catch(err => console.error(err));
     }
     try {
-      axios.patch(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}`, {
+      axios.patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${loggedUser._id}`, {
         following: lgu,
       });
-      axios.patch(`https://inspix-backend.onrender.com/api/users/${id}`, { followers: su }).then((res) => {
+      axios.patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`, { followers: su }).then((res) => {
         // notification.fromUserId = loggedUser._id;
-        // axios.post(`https://inspix-backend.onrender.com/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+        // axios.post(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}/notifications`, notification).catch(err => console.error(err));
         setUpdate(update + 1);
       })
       

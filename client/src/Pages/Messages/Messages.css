@@ -1,0 +1,25 @@
+.messages_page{
+        position: absolute;
+        left: 20vw;
+        width: 80vw;
+        height: 100vh;
+        padding: 10px ;
+}
+
+@media screen and (max-width: 426px) {
+    .messages_page{
+        left: 0;
+        width: 100vw;
+        padding: 0px;
+    }
+    /* .top_nav,.main_nav{
+        display: none;
+    } */
+}
+@media (min-width:426px) and (max-width: 769px) {
+    .messages_page{
+        left: 15vw;
+        width: 85vw;
+        padding: 0%;
+    }
+}

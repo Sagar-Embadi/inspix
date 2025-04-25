@@ -9,13 +9,14 @@ import { Home } from "../../Pages/Home/Home";
 import { Search } from "../../Pages/Search/Search";
 import { Messages } from "../../Pages/Messages/Messages";
 import Notifications from "../../Pages/Notifications/Notifications";
+import { getEnv } from "@/helpers/getEnv";
 const Dashboard = () => {
   const [loggedUser, setLoggedUser] = useState({});
   const [update] = useContext(store);
   useEffect(() => {
     let token = JSON.parse(localStorage.getItem("token"));
     axios
-      .get("https://inspix-backend.onrender.com/api/loggeduser", {
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/loggeduser`, {
         headers: {
           "x-token": token,
         },

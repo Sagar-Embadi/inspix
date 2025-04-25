@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "./Login.css";
@@ -7,6 +8,7 @@ import { Navigate, useNavigate } from "react-router";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { showToastify } from "@/helpers/showToastify";
+import { getEnv } from "@/helpers/getEnv";
 const Login = () => {
   let navigate = useNavigate();
   const [token, setToken] = useContext(store);
@@ -38,7 +40,7 @@ const Login = () => {
       return;
     }
     axios
-      .post("https://inspix-backend.onrender.com/api/login", data)
+      .post(`${getEnv('VITE_BACKEND_URL')}/api/login`, data)
       .then((res) => {
         setToken(res.data.token);
         localStorage.setItem("token", JSON.stringify(res.data.token));

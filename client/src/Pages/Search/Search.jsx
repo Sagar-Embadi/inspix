@@ -8,6 +8,7 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { FaSearch } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
+import { getEnv } from "@/helpers/getEnv";
 export function Search() {
   const [search, setSearch] = useState([]);
   const [users, setUsers] = useState([]);
@@ -18,11 +19,11 @@ export function Search() {
   useEffect(() => {
     document.title = "Search";
     axios
-      .get("https://inspix-backend.onrender.com/api/users/")
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/users/`)
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
     axios
-      .get("https://inspix-backend.onrender.com/api/posts/")
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/posts/`)
       .then((res) => {
         // console.log(res.data);
         setPosts(res.data);

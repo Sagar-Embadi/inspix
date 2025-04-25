@@ -1,3 +1,12 @@
+.drawer_box{
+    position: fixed;
+    left: 20vw;
+    width: 250px;
+    height: 100vh;
+    background-color: rgb(255, 255, 255);
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
 .main_nav{
     position: fixed;
     width: 20vw;
@@ -53,6 +62,10 @@
     object-fit: cover;
   }
 @media only screen and (max-width:426px) {
+    .drawer_box{
+        left: 0%;
+        width: 100vw;
+    }
     .main_nav{
         background-color: rgb(255, 255, 255);
         position: fixed;
@@ -101,6 +114,10 @@
     }
 }
 @media (min-width:426px) and (max-width:769px){
+    .drawer_box{
+        left: 15vw;
+        width: 250px;
+    }
     .main_nav{
         min-width: 75px;
         width: 10vw;

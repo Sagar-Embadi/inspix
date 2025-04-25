@@ -5,9 +5,10 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-// import { getEnv } from "@/helpers/getEnv";
+import { getEnv } from "@/helpers/getEnv";
 // import { format } from "date-fns";
 import moment from "moment/moment";
+import { NotificationSkeleton } from "@/Components/Skeletons/NotificationSkeleton";
 const Notifications = () => {
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
   const [update] = useContext(store);
@@ -16,10 +17,10 @@ const Notifications = () => {
   useEffect(() => {
     document.title = "Notifications";
     axios
-      .get(`https://inspix-backend.onrender.com/api/users/${loggedUser._id}/notifications/`)
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/users/${loggedUser._id}/notifications/`)
       .then((res) => {
-        // console.log(res.data);
-        setNotifications(res.data);
+        console.log(res.data);
+        setNotifications(res.data.reverse());
       })
       .catch((err) => console.error(err));
   }, [update]);
@@ -33,8 +34,8 @@ const Notifications = () => {
             return (
               <div className="notification" key={index}>
                 <Avatar
-                  alt={notification.fromUser.name}
-                  src={notification.fromUser.profilePicture}
+                  alt={notification.fromUser?.name}
+                  src={notification.fromUser?.profilePicture}
                   sx={{ width: 56, height: 56 }}
                 />
                 <div className="notification_text">
@@ -52,7 +53,7 @@ const Notifications = () => {
                     {notification.type === "comment" &&
                       "Commented on your post"}
                     <span style={{ marginLeft: 10, color: "gray" }}>
-                      {moment().startOf("week").fromNow()}
+                      {moment(notification.createdAt).fromNow()}
                     </span>
                   </span>
                 </div>
@@ -83,7 +84,7 @@ const Notifications = () => {
             );
           })
         ) : (
-          <p>No notifications</p>
+          <NotificationSkeleton/>
         )}
       </div>
     </div>

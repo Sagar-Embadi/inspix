@@ -20,6 +20,8 @@ import {
   ModalHeader,
   ModalTitle,
 } from "react-bootstrap";
+import { useChatStore } from "@/store/useChatStore";
+import { getEnv } from "@/helpers/getEnv";
 export function Home() {
   const [loggedUser, setLoggedUser] = useState(
     JSON.parse(localStorage.getItem("loggedUser"))
@@ -39,10 +41,13 @@ export function Home() {
     console.log(modalType);
   };
 
+  const { setLoggedInUser } = useChatStore()
+
   useEffect(() => {
     document.title = "Home";
+    setLoggedInUser(JSON.parse(localStorage.getItem("loggedUser")));
     axios
-      .get("https://inspix-backend.onrender.com/api/posts/")
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/posts`)
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
@@ -50,7 +55,7 @@ export function Home() {
       .catch((err) => console.error(err));
     let token = JSON.parse(localStorage.getItem("token"));
     axios
-      .get("https://inspix-backend.onrender.com/api/loggeduser", {
+      .get(`${getEnv('VITE_BACKEND_URL')}/api/loggeduser`, {
         headers: {
           "x-token": token,
         },
@@ -75,7 +80,7 @@ export function Home() {
       }, 500);
       axios
         .post(
-          `https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`,
+          `${getEnv('VITE_BACKEND_URL')}/api/users/${x.usersId}/notifications`,
           {
             type: "like",
             postId: x._id,
@@ -87,21 +92,11 @@ export function Home() {
       likes = likes.filter((x) => x._id !== loggedUser._id);
     }
     axios
-      .patch(`https://inspix-backend.onrender.com/api/posts/${x._id}`, {
+      .patch(`${getEnv('VITE_BACKEND_URL')}/api/posts/${x._id}`, {
         likes,
       })
       .then(() => {
         setUpdate(update + 1);
-        // let dd = document.querySelectorAll(".heart");
-        // dd[index].style.display = "block";
-        // setTimeout(() => {
-        //   dd[index].style.display = "none";
-        // }, 500);
-        // axios.post(`https://inspix-backend.onrender.com/api/users/${x.usersId}/notifications`, {
-        //   type: "like",
-        //   postId: x._id,
-        //   fromUserId: loggedUser._id,
-        // }).catch(err=> console.error(err));
       })
       .catch((err) => console.log(err));
   };
@@ -114,14 +109,14 @@ export function Home() {
 
     axios
       .patch(
-        `https://inspix-backend.onrender.com/api/posts/${selectedPost._id}`,
+        `${getEnv('VITE_BACKEND_URL')}/api/posts/${selectedPost._id}`,
         { comments }
       )
       .then(() => {
         setUpdate(update - 1);
         axios
           .post(
-            `https://inspix-backend.onrender.com/api/users/${selectedPost.usersId}/notifications`,
+            `${getEnv('VITE_BACKEND_URL')}/api/users/${selectedPost.usersId}/notifications`,
             {
               type: "comment",
               postId: selectedPost._id,
@@ -144,7 +139,7 @@ export function Home() {
     // console.log(x,saved);
     axios
       .patch(
-        `https://inspix-backend.onrender.com/api/users/${loggedUser._id}`,
+        `${getEnv('VITE_BACKEND_URL')}/api/users/${loggedUser._id}`,
         { saved }
       )
       .then(() => {
