@@ -1,5 +1,5 @@
 import express from "express";
-import { getMessages, sendMessage } from "../controllers/message.controller.js";
+import { getMessages, sendMessage } from "../Controllers/message.controller.js";
 import { middleware } from "./middleware.js";
 import Message from "../models/message.js";
 
