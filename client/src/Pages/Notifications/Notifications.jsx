@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { getEnv } from "@/helpers/getEnv";
 // import { format } from "date-fns";
-import moment from "moment/moment";
+import moment from "moment";
 import { NotificationSkeleton } from "@/Components/Skeletons/NotificationSkeleton";
 const Notifications = () => {
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
