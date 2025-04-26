@@ -19,7 +19,7 @@ const Notifications = () => {
     axios
       .get(`${getEnv('VITE_BACKEND_URL')}/api/users/${loggedUser._id}/notifications/`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setNotifications(res.data.reverse());
       })
       .catch((err) => console.error(err));

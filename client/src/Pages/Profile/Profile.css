@@ -17,7 +17,7 @@
 .profile_pic {
   padding: 10px 40px;
 }
-.profile_pic > img {
+.profile_pic > .profile_img {
   border: 2px solid black;
   border-radius: 100em;
   width: 230px;
@@ -44,6 +44,10 @@
   padding: 15px;
   background-color: rgb(163, 161, 161);
 }
+.username > .setting_icon {
+  font-size: 2rem;
+}
+
 .username > button:hover {
   background-color: black;
   color: white;
@@ -106,7 +110,7 @@ audio {
 .view_posts  h2 {
   display: flex;
   gap: 10px;
-  
+  align-items: end;
 }
 .select_posts {
   display: flex;
@@ -142,7 +146,7 @@ audio {
   .profile_pic {
     padding: 10px;
   }
-  .profile_pic > img {
+  .profile_pic > .profile_img {
     width: 25vw;
     height: 25vw;
   }
@@ -189,7 +193,7 @@ audio {
     font-size: 1.2rem;
     margin: 0px;
   }
-  .view_posts > h2 {
+  .select_posts > h2 {
     font-size: 1.2rem;
     padding: 0px;
   }
@@ -215,7 +219,7 @@ audio {
   .profile_pic {
     padding: 10px;
   }
-  .profile_pic > img {
+  .profile_pic > .profile_img {
     width: 150px;
     height: 150px;
   }

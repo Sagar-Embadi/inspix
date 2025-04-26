@@ -197,7 +197,7 @@ export function MainNav({ loggedUser }) {
             onClick={() => setUpdate(update + 1)}
           >
             <img
-              src={loggedUser.profilePicture}
+              src={loggedUser?.profilePicture || "https://th.bing.com/th/id/OIP.Icb6-bPoeUmXadkNJbDP4QHaHa"}
               alt=""
               className="profilePic"
             />{" "}

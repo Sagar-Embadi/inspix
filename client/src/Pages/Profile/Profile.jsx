@@ -12,7 +12,21 @@ import { store } from "../../App";
 import { useParams } from "react-router-dom";
 import { FaRegBookmark } from "react-icons/fa";
 import { getEnv } from "@/helpers/getEnv";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Switch from '@mui/material/Switch';
+import { TbMessageReport } from "react-icons/tb";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 export function Profile() {
   const { id } = useParams();
   const [loggedUser, setLoggedUser] = useState({});
@@ -24,24 +38,25 @@ export function Profile() {
   const [update, setUpdate] = useContext(store);
   const [posts, setPosts] = useState([]);
   const [displayPosts, setDisplayPosts] = useState([]);
+  const navigate = useNavigate();
   const notification = {
     type: "follow",
     fromUserId: loggedUser._id,
-  }
+  };
 
   useEffect(() => {
     // console.log(id)
-    document.title="Profile"
+    document.title = "Profile";
     axios
-      .get(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`)
+      .get(`${getEnv("VITE_BACKEND_URL")}/api/users/${id}`)
       .then((res) => {
         // console.log(res.data);
         setData(res.data);
         setEditData(res.data);
-        document.title = `Profile-${res.data.username}`
+        document.title = `Profile-${res.data.username}`;
       })
       .catch((err) => console.error(err));
-    axios.get(`${getEnv('VITE_BACKEND_URL')}/api/posts`).then((res) => {
+    axios.get(`${getEnv("VITE_BACKEND_URL")}/api/posts`).then((res) => {
       // console.log(res.data);
       // console.log(res.data.filter(x=>x.usersId === `67d3f1bed71908396f5c3030`))
       setPosts(res.data.filter((x) => x.usersId === id));
@@ -74,7 +89,7 @@ export function Profile() {
   };
   const handleEditDetails = async () => {
     await axios
-      .patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${data._id}`, editData)
+      .patch(`${getEnv("VITE_BACKEND_URL")}/api/users/${data._id}`, editData)
       .then((res) => {
         // console.log(res.data)
         alert("updated successfully");
@@ -84,12 +99,12 @@ export function Profile() {
   };
   const handleDelete = () => {
     axios
-      .delete(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`)
+      .delete(`${getEnv("VITE_BACKEND_URL")}/api/users/${id}`)
       .then((deleted) => alert("deleted"));
   };
   const handleDeletePost = (x) => {
     axios
-      .delete(`${getEnv('VITE_BACKEND_URL')}.com/api/posts/${x._id}`)
+      .delete(`${getEnv("VITE_BACKEND_URL")}.com/api/posts/${x._id}`)
       .then((res) => {
         alert("post Deleted");
         setUpdate(update + 1);
@@ -113,43 +128,95 @@ export function Profile() {
       su = su.filter((x) => x._id !== loggedUser._id);
       su.push(loggedUser._id);
       notification.fromUserId = loggedUser._id;
-        axios.post(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+      axios
+        .post(
+          `${getEnv("VITE_BACKEND_URL")}/api/users/${id}/notifications`,
+          notification
+        )
+        .catch((err) => console.error(err));
     }
     try {
-      axios.patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${loggedUser._id}`, {
+      axios.patch(`${getEnv("VITE_BACKEND_URL")}/api/users/${loggedUser._id}`, {
         following: lgu,
       });
-      axios.patch(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}`, { followers: su }).then((res) => {
-        // notification.fromUserId = loggedUser._id;
-        // axios.post(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}/notifications`, notification).catch(err => console.error(err));
-        setUpdate(update + 1);
-      })
-      
+      axios
+        .patch(`${getEnv("VITE_BACKEND_URL")}/api/users/${id}`, {
+          followers: su,
+        })
+        .then((res) => {
+          // notification.fromUserId = loggedUser._id;
+          // axios.post(`${getEnv('VITE_BACKEND_URL')}/api/users/${id}/notifications`, notification).catch(err => console.error(err));
+          setUpdate(update + 1);
+        });
     } catch (err) {
       console.log(err);
     }
   };
-  const handlePosts=(x) =>{
-    if (x==='posts'){
-      setDisplayPosts(posts)
-    }else if(x==='saved'){
-      setDisplayPosts(data.saved)
+  const handlePosts = (x) => {
+    if (x === "posts") {
+      setDisplayPosts(posts);
+    } else if (x === "saved") {
+      setDisplayPosts(data.saved);
     }
-  }
+  };
   return (
     <div className="profile">
       {Object.keys(data).length > 1 ? (
         <div>
           <div className="profile_details">
             <div className="profile_pic">
-              <img src={data.profilePicture} alt="profile_photo" />
+              <Avatar 
+               src={data.profilePicture} alt="profile_photo" className="profile_img"/>
             </div>
             <div className="profile_following">
               <div className="username">
                 <h1>{data.username}</h1>
-                <button onClick={handleShow}>Edit Profile</button>
+                {loggedUser._id == id &&<button onClick={handleShow}>Edit Profile</button>}
                 {/* <button onClick={handleDelete}>DELETE</button> */}
-                <RiSettings4Fill className="setting_icon"/>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <RiSettings4Fill className="setting_icon" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>Menu</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        <span style={{ fontSize: 14 }}>
+                          {" "}
+                          Switch Appearance{" "}
+                        </span>
+                        <Switch />
+                      </div>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        {" "}
+                        Report Problem{" "}
+                        <TbMessageReport style={{ color: "red" }} />{" "}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
+                          localStorage.removeItem("token");
+                          navigate("/login");
+                        }}
+                      >
+                        {" "}
+                        Log Out
+                        <DropdownMenuShortcut>
+                          <LogoutIcon style={{ color: "red" }} />{" "}
+                        </DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               <div className="followers_following">
                 <div className="posts">
@@ -191,11 +258,16 @@ export function Profile() {
 
           <div className="view_posts">
             <div className="select_posts">
-            <h2 title="posts" onClick={()=>handlePosts('posts')}><IoGrid /> <span>POSTS</span></h2>
-            <h2 title="saved" onClick={()=>handlePosts('saved')}><FaRegBookmark/><span>SAVED</span> </h2>
+              <h2 title="posts" onClick={() => handlePosts("posts")}>
+                <IoGrid /> <span>POSTS</span>
+              </h2>
+              <h2 title="saved" onClick={() => handlePosts("saved")}>
+                <FaRegBookmark />
+                <span>SAVED</span>{" "}
+              </h2>
             </div>
             <div className="post_section">
-              {displayPosts.map((x,index) => {
+              {displayPosts.map((x, index) => {
                 return (
                   <div className="post_card" key={index}>
                     <img src={x.media} alt={data.caption} />
