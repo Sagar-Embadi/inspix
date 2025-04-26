@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import { getEnv } from "@/helpers/getEnv";
 // import { format } from "date-fns";
 import moment from "moment";
-import { NotificationSkeleton } from "@/Components/Skeletons/NotificationSkeleton";
+import { NotificationSkeleton } from "@/components/Skeletons/NotificationSkeleton";
 const Notifications = () => {
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
   const [update] = useContext(store);

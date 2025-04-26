@@ -21,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "../../Components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import Switch from '@mui/material/Switch';
 import { TbMessageReport } from "react-icons/tb";
 import LogoutIcon from '@mui/icons-material/Logout';

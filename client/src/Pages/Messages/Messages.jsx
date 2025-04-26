@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./Messages.css";
 // import { Avatar } from "@mui/material";
-import MessageSkeleton from "@/Components/Skeletons/MessageSkeleton";
-import MessageInput from "@/Components/MessageInput";
-import ChatHeader from "@/Components/ChatHeader";
+import MessageSkeleton from "@/components/Skeletons/MessageSkeleton";
+import MessageInput from "@/components/MessageInput";
+import ChatHeader from "@/components/ChatHeader";
 
 import { useChatStore } from "@/store/useChatStore";
-import NoChatSelected from "@/Components/NoChatSelected";
+import NoChatSelected from "@/components/NoChatSelected";
 import { useContext, useEffect, useRef, useState } from "react";
 import { store } from "@/App";
 import { socket } from "@/helpers/socket";
