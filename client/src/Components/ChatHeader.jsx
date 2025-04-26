@@ -8,7 +8,6 @@ import { useContext, useEffect, } from "react";
 const ChatHeader = () => {
   const {selectedUser, setSelectedUser } = useChatStore()
   const [update, setUpdate] = useContext(store)
-
   // const { onlineUsers } = useAuthStore();
   useEffect(()=>{
     const storedUser = JSON.parse(localStorage.getItem("selectedUser"));
