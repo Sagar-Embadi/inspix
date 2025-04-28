@@ -28,15 +28,21 @@ export function Messages() {
     // subscribeToMessages,
     // unsubscribeFromMessages,
   } = useChatStore();
+  const isUserNearBottom = () => {
+    if (!messageEndRef.current) return false;
+    const container = messageEndRef.current.parentElement;
+    return container.scrollHeight - container.scrollTop - container.clientHeight < 200;
+  };
+  
   useEffect(() => {
     setSelectedUser(JSON.parse(localStorage.getItem("selectedUser")));
     // setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")))
     getMessages(loggedInUser._id);
 
-    // if (messageEndRef.current && messages) {
-    //   messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-    // }
-    // window.scrollTo(0, 0);
+    if (messages && messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    window.scrollTo(0, 0);
     
     socket.emit('register', loggedInUser._id);
     socket.on('receive_message', () => {
@@ -45,19 +51,18 @@ export function Messages() {
     return () => {
       socket.off('receive_message');
     }
-    // subscribeToMessages()
-    // return () => unsubscribeFromMessages()
-  }, [ update, messages]);
+
+  }, [ update]);
 
   useEffect(() => {
-    if (messageEndRef.current && messages) {
+    const container = messageEndRef.current?.parentElement;
+    if (!container) return;
+  
+    if (isUserNearBottom()) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-
-    // console.log(messageEndRef.current);
-    
   }, [messages]);
-  // console.log(messages);
+  
 
   if (isMessagesLoading) {
     return (
@@ -81,7 +86,7 @@ export function Messages() {
             <ChatHeader />
           </div>
           <div className="message_body">
-              <div className="message_body_container" style={{ height: "calc(99vh - 145px)", overflowY: "scroll", scrollbarWidth:'none' }}>
+              <div className="message_body_container" style={{ height: "calc(99vh - 128px)", overflowY: "scroll", scrollbarWidth:'none' }}>
                 {messages.map((message) => (
                   <div
                     key={message._id}
@@ -111,7 +116,7 @@ export function Messages() {
                         })}
                       </time>
                     </div>
-                    <div className="chat-bubble flex flex-col">
+                    <div className="chat-bubble flex flex-col p-2 max-w-[70%]">
                       {message.image && (
                         <img
                           src={message.image}
@@ -119,10 +124,16 @@ export function Messages() {
                           className="sm:max-w-[200px] rounded-md mb-2"
                         />
                       )}
-                      {message.text && <p>{message.text}</p>}
+                      {message.text && <span>{message.text}</span>}
+                      {message.url && <a href={message.url}>{message.postId.media ? <img
+                          src={message.postId.media}
+                          alt="Attachment"
+                          className="sm:max-w-[200px] rounded-md mb-2"
+                        />:message.url}</a>}
                     </div>
                   </div>
                 ))}
+                <div ref={messageEndRef} />
               </div>
           </div>
           <div className="message_input">

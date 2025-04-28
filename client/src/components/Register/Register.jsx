@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import logo_wt from "../../Logo/logo_wt.jpeg";
+import logo_wt from "../../Logo/inspix logo.png";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import TextField from "@mui/material/TextField";

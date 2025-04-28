@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import "./MainNav.css";
-import logo from "../../Logo/logo_wt.jpeg";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { TiHome, TiThMenu } from "react-icons/ti";
-import { IoSearch } from "react-icons/io5";
-import { BiSolidMessageRoundedDetail } from "react-icons/bi";
+import logo from "../../Logo/inspix logo.png";
+import textLogo from "../../Logo/inspix text logo.png"
+import logoIcon from "../../Logo/inspix_icon.png";
+import { Link, useNavigate } from "react-router-dom";
+import { TiHome, TiHomeOutline, TiThMenu } from "react-icons/ti";
+import { IoSearch, IoSearchOutline } from "react-icons/io5";
+import { BiMessageRoundedDetail, BiSolidMessageRoundedDetail } from "react-icons/bi";
 import { FiPlusSquare } from "react-icons/fi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
@@ -33,28 +35,21 @@ import { Avatar } from "@mui/material";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useChatStore } from "@/store/useChatStore";
-import { set } from "date-fns";
+import SidebarSkeleton from "@/components/Skeletons/SidebarSkeleton";
+import { ArrowBack } from "@mui/icons-material";
 
 export function MainNav({ loggedUser }) {
   let navigate = useNavigate();
   const [update, setUpdate] = useContext(store);
-  const [token, setToken] = useContext(store);
   const [show, setShow] = useState(false);
   const [users, setUsers] = useState([]);
-  const {
-        messages,
-        getMessages,
-        isMessagesLoading,
-        setSelectedUser,
-        subscribeToMessages,
-        unsubscribeFromMessages,
-      } = useChatStore();
+  const {selectedUser, setSelectedUser } = useChatStore();
+  const [ active, setActive ] = useState("home")
   useEffect(() => {
     let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
     axios.get(`${getEnv('VITE_BACKEND_URL')}/api/users`).then((res) => {
@@ -126,8 +121,14 @@ export function MainNav({ loggedUser }) {
   };
   const DrawerList = (
     <Box  className="drawer_box" role="presentation" onClick={toggleDrawer(false)}>
+        <div className="drawer_header flex align-items-center gap-2 px-2 pt-2 border-bottom-1px border-gray-300">
+          <ArrowBack/>
+          <h4 onClick={()=>{
+            navigate(`/profile/${loggedUser._id}`)
+          }}>{loggedUser.username}</h4>
+        </div>
       <List>
-        {users.map((user, index) => (
+        {users.length != 0? users.map((user, index) => (
           <ListItem key={index} disablePadding>
             <ListItemButton onClick={()=>{
               setSelectedUser(user)
@@ -140,7 +141,7 @@ export function MainNav({ loggedUser }) {
               <ListItemText primary={user.username} />
             </ListItemButton>
           </ListItem>
-        ))}
+        )):<SidebarSkeleton/>}
       </List>
     </Box>
   );
@@ -155,7 +156,8 @@ export function MainNav({ loggedUser }) {
       </div>
 
       <div className="top_nav">
-        <h1>INSPIX</h1>
+        <div className="flex gap-2"><img src={logoIcon} style={{height:40}} />
+        <img src={textLogo} style={{height:40}}/></div>
         <div>
           <Link className="link" to="notifications">
             <Badge color="secondary" badgeContent={loggedUser.notifications?loggedUser.notifications.length:0} showZero variant="dot">
@@ -163,53 +165,64 @@ export function MainNav({ loggedUser }) {
             </Badge>
           </Link>
           <Link className="link" to="messages">
-            <Badge color="secondary" badgeContent={0} showZero variant="dot">
+            <Badge color="secondary" badgeContent={0} showZero variant="dot" onClick={()=>{
+              localStorage.removeItem("selectedUser")
+              setOpen(true)
+            }}>
               <BiSolidMessageRoundedDetail className="icon" />
             </Badge>
           </Link>
         </div>
       </div>
       <div className="main_nav">
-        <img src={logo} alt="" />
+        <img src={logoIcon} alt="" className="logoIcon" />
+        <img src={logo} alt="" className="logo"/>
         <div className="nav_links">
-          <Link className="link" to="/">
-            <TiHome className="icon" /> <span>Home</span>
+          <Link className="link" to="/" onClick={()=>setActive('home')}>
+            {active == "home" ? <TiHome className="icon" /> :<TiHomeOutline className="icon"/>}
+            <span style={{fontWeight:active=='home'?'bold':'lighter'}}>Home</span>
           </Link>
-          <Link className="link" to="search">
-            <IoSearch className="icon" /> <span>Search</span>
+          <Link className="link" to="search" onClick={()=>{setActive('search')}}>
+            {active == 'search' ? <IoSearch className="icon"/>:<IoSearchOutline/>}
+            <span style={{fontWeight:active=='search'?'bold':'lighter'}}>Search</span>
           </Link>
           <Link className="link message" to="messages" onClick={()=>{
             localStorage.removeItem("selectedUser")
+            setActive('messages')
             setOpen(true)
           }}>
-            <BiSolidMessageRoundedDetail className="icon" />{" "}
-            <span>Messages</span>
+            {active == 'messages' ?<BiSolidMessageRoundedDetail className="icon" />:<BiMessageRoundedDetail className="icon"/>}{" "}
+            <span style={{fontWeight:active=='messages'?'bold':'lighter'}}>Messages</span>
           </Link>
-          <Link className="link notifications" to="notifications">
-            <FaRegHeart className="icon" /> <span>Notifications</span>
+          <Link className="link notifications" to="notifications" onClick={()=>setActive('notifications')}>
+            {active == 'notifications' ? <FaHeart className="icon" />:<FaRegHeart className="icon"/>}{" "}
+            <span style={{fontWeight:active=='notifications'?'bold':'lighter'}}>Notifications</span>
           </Link>
-          <Link className="link" onClick={handleShow}>
-            <FiPlusSquare className="icon" /> <span>Post</span>
+          <Link className="link" onClick={()=>{
+            handleShow()
+            setActive('post')}}>
+            <FiPlusSquare className="icon" />
+            <span style={{fontWeight:active=='post'?'bold':'lighter'}}>Post</span>
           </Link>
           <Link
             className="link"
             to={`profile/${loggedUser._id}`}
-            onClick={() => setUpdate(update + 1)}
+            onClick={() => {setUpdate(update + 1);setActive('profile')}}
           >
             <img
               src={loggedUser?.profilePicture || "https://th.bing.com/th/id/OIP.Icb6-bPoeUmXadkNJbDP4QHaHa"}
               alt=""
               className="profilePic"
             />{" "}
-            <span>Profile</span>
+            <span style={{fontWeight:active=='profile'?'bold':'normal'}}>Profile</span>
           </Link>
         </div>
         <div className="menu ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="link ">
-                <TiThMenu />
-                <span>Menu</span>
+              <div className="link " onClick={()=>setActive('menu')}>
+                <TiThMenu className="icon" />
+                <span style={{fontWeight:'lighter'}}>Menu</span>
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">

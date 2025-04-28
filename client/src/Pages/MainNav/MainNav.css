@@ -1,6 +1,6 @@
 .drawer_box{
     position: fixed;
-    left: 20vw;
+    left: 16vw;
     width: 250px;
     height: 100vh;
     background-color: rgb(255, 255, 255);
@@ -9,7 +9,7 @@
 }
 .main_nav{
     position: fixed;
-    width: 20vw;
+    width: 16vw;
     height: 100vh;
     padding: 50px 10px ;
     border-right: 1px solid grey;
@@ -52,7 +52,7 @@
     font-size: 26px;
     
 }
-.top_nav{
+.top_nav,.logoIcon{
     display: none;
 }
 .profilePic {
@@ -102,7 +102,7 @@
         display: flex;
         justify-content: space-between;
         z-index: 2;
-        padding: 5px 20px;
+        padding: 8px 20px;
         align-items: center;
     }
     .top_nav > div{
@@ -115,7 +115,7 @@
 }
 @media (min-width:426px) and (max-width:769px){
     .drawer_box{
-        left: 15vw;
+        left: 10vw;
         width: 250px;
     }
     .main_nav{
@@ -124,8 +124,11 @@
         height: 100vh;
         padding: 20px 10px ;
     }
-    .main_nav > img{
+    .logo{
         display: none;
+    }
+    .logoIcon{
+        display: block;
     }
     .nav_links span,.link > span{
         display: none;

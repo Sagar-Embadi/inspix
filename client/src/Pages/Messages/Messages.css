@@ -2,8 +2,8 @@
         position: absolute;
         left: 20vw;
         width: 80vw;
-        height: 100vh;
-        padding: 10px ;
+        height: 99vh;
+        
 }
 
 @media screen and (max-width: 426px) {

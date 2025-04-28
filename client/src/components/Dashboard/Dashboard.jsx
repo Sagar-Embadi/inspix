@@ -10,6 +10,7 @@ import { Search } from "../../Pages/Search/Search";
 import { Messages } from "../../Pages/Messages/Messages";
 import Notifications from "../../Pages/Notifications/Notifications";
 import { getEnv } from "@/helpers/getEnv";
+import { Singlepage } from "@/Pages/Singlepage/Singlepage";
 const Dashboard = () => {
   const [loggedUser, setLoggedUser] = useState({});
   const [update] = useContext(store);
@@ -42,6 +43,7 @@ const Dashboard = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/post/:id" element={<Singlepage/>}/>
         </Routes>
       </div>
     </div>

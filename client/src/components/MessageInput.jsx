@@ -5,25 +5,27 @@ import { showToastify } from "@/helpers/showToastify";
 import { store } from "@/App";
 
 const MessageInput = () => {
-  const[loggedInUser] = useState(JSON.parse(localStorage.getItem("loggedUser")));
+  const [loggedInUser] = useState(
+    JSON.parse(localStorage.getItem("loggedUser"))
+  );
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
-  const {selectedUser, setSelectedUser } = useChatStore()
-    const [update] = useContext(store)
-  
-    // const { onlineUsers } = useAuthStore();
-    useEffect(()=>{
-      const storedUser = JSON.parse(localStorage.getItem("selectedUser"));
-      setSelectedUser(storedUser);
-    },[update])
+  const { selectedUser, setSelectedUser } = useChatStore();
+  const [update,setUpdate] = useContext(store);
+
+  // const { onlineUsers } = useAuthStore();
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("selectedUser"));
+    setSelectedUser(storedUser);
+  }, [update]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file.type.startsWith("image/")) {
-        showToastify("error", "Please select an image file");
-    //   toast.error("Please select an image file");
+      showToastify("error", "Please select an image file");
+      //   toast.error("Please select an image file");
       return;
     }
 
@@ -49,9 +51,10 @@ const MessageInput = () => {
         image: imagePreview,
         senderId: loggedInUser._id,
         receiverId: selectedUser._id,
-      });
+      })
 
       // Clear form
+      setUpdate(update + 1)
       setText("");
       setImagePreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -61,7 +64,7 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-2 w-full position-sticky bottom-0 bg-base-100 z-10 border-t border-base-300">
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
           <div className="relative">
@@ -86,11 +89,12 @@ const MessageInput = () => {
         <div className="flex-1 flex gap-2">
           <input
             type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
+            className="w-full input input-bordered rounded-lg input-sm border sm:input-md border-zinc-700"
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+
           <input
             type="file"
             accept="image/*"

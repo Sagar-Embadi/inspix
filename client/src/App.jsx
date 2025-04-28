@@ -10,6 +10,7 @@ import { Search } from "./Pages/Search/Search";
 import { Messages } from './Pages/Messages/Messages';
 import Notifications from "./Pages/Notifications/Notifications";
 import { ToastContainer } from "react-toastify";
+import { Singlepage } from "./Pages/Singlepage/Singlepage";
 
 export const store = createContext();
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="messages" element={<Messages/>} />
           <Route path="notifications" element={<Notifications/>} />
           <Route path="profile/:id" element={<Profile/>} />
+          <Route path="post/:id" element={<Singlepage/>}/>
         </Route>
       </Routes>
     </store.Provider>

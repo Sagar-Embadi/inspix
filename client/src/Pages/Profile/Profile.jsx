@@ -27,6 +27,7 @@ import { TbMessageReport } from "react-icons/tb";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import { ProfileSkeleton } from "@/components/Skeletons/ProfileSkeleton";
 export function Profile() {
   const { id } = useParams();
   const [loggedUser, setLoggedUser] = useState({});
@@ -288,7 +289,7 @@ export function Profile() {
           </div>
         </div>
       ) : (
-        <h1>'loading...'</h1>
+        <ProfileSkeleton/>
       )}
       <Modal
         show={show}

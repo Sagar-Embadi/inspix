@@ -15,7 +15,7 @@ const ChatHeader = () => {
   },[update])
 
   return (
-    <div className="p-2.5 border-b border-base-300">
+    <div className="p-3 border-b border-base-300 position-sticky top-0 bg-base-100 z-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Avatar */}

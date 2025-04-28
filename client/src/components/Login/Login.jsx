@@ -2,7 +2,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "./Login.css";
-import logo_wt from "../../Logo/logo_wt.jpeg";
+import logo_wt from "../../Logo/inspix logo.png";
 import { store } from "../../App";
 import { Navigate, useNavigate } from "react-router";
 import TextField from "@mui/material/TextField";
