@@ -15,7 +15,7 @@ router.get('/conversation/:user1Id/:user2Id',async(req,res)=>{
             { sender: user1Id, receiver: user2Id },
             { sender: user2Id, receiver: user1Id }
           ]
-        }).sort({ timestamp: 1 }).populate('sender receiver', 'username profilePicture'); // oldest to newest
+        }).populate('sender receiver', 'username profilePicture').populate('postId',"media title"); // oldest to newest
         
         res.status(200).send(messages);
       } catch (err) {

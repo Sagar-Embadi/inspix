@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:"https://th.bing.com/th/id/OIP.Icb6-bPoeUmXadkNJbDP4QHaHa?pid=ImgDet&w=184&h=184&c=7&dpr=1.3"
     },
+    story: {
+        type: String,
+    },
     bio: { 
         type: String,
         default: '',

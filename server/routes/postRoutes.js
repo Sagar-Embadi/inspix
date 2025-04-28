@@ -38,10 +38,10 @@ router.get("/posts", async (req, res) => {
 // Get a single post by ID
 router.get("/posts/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate(
-      "usersId",
-      "username"
-    );
+    const post = await Post.findById(req.params.id)
+    .populate("author", "username profilePicture")
+      .populate("likes", "username profilePicture")
+      .populate("comments.user", "username profilePicture"); // Populate author details
     if (!post) {
       return res.status(404).send({ message: "Post not found" });
     }

@@ -15,6 +15,13 @@ const messageSchema = new mongoose.Schema(
     text: {
       type: String,
     },
+    url: {
+      type: String,
+    },
+    postId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
     image: {
       type: String,
     },

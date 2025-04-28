@@ -37,9 +37,12 @@ export const getMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { text, image, senderId, receiverId } = req.body;
+    const { text, image, senderId, receiverId, url, postId } = req.body;
     // const { id: receiverId } = req.params;
     // const senderId = req.user._id;
+    if (senderId === receiverId) {
+      return res.status(400).send("You cannot send a message to yourself.");
+    }
 
     let imageUrl;
     if (image) {
@@ -53,6 +56,8 @@ export const sendMessage = async (req, res) => {
       receiver: receiverId,
       text,
       image: imageUrl,
+      url,
+      postId,
     });
 
     await newMessage.save();
