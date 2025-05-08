@@ -156,7 +156,7 @@ export function MainNav({ loggedUser }) {
       </div>
 
       <div className="top_nav">
-        <div className="flex gap-2"><img src={logoIcon} style={{height:40}} />
+        <div className="flex gap-2" onClick={()=>navigate('/')}><img src={logoIcon} style={{height:40}} />
         <img src={textLogo} style={{height:40}}/></div>
         <div>
           <Link className="link" to="notifications">
@@ -175,8 +175,8 @@ export function MainNav({ loggedUser }) {
         </div>
       </div>
       <div className="main_nav">
-        <img src={logoIcon} alt="" className="logoIcon" />
-        <img src={logo} alt="" className="logo"/>
+        <img src={logoIcon} alt="" className="logoIcon" onClick={()=>navigate('/')}/>
+        <img src={logo} alt="" className="logo" onClick={()=>navigate('/')}/>
         <div className="nav_links">
           <Link className="link" to="/" onClick={()=>setActive('home')}>
             {active == "home" ? <TiHome className="icon" /> :<TiHomeOutline className="icon"/>}

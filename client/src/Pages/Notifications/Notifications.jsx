@@ -9,11 +9,13 @@ import { getEnv } from "@/helpers/getEnv";
 // import { format } from "date-fns";
 import moment from "moment";
 import { NotificationSkeleton } from "@/components/Skeletons/NotificationSkeleton";
+import NoNotifications from "@/components/NoNotifications";
 const Notifications = () => {
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
   const [update] = useContext(store);
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     document.title = "Notifications";
     axios
@@ -21,9 +23,17 @@ const Notifications = () => {
       .then((res) => {
         // console.log(res.data);
         setNotifications(res.data.reverse());
+        setLoading(false)
       })
       .catch((err) => console.error(err));
   }, [update]);
+  if (loading){
+    return(
+      <div className="notifications_page">
+        <NotificationSkeleton/>
+      </div>
+    )
+  }
 
   return (
     <div className="notifications_page">
@@ -84,7 +94,7 @@ const Notifications = () => {
             );
           })
         ) : (
-          <NotificationSkeleton/>
+          <div><NoNotifications/> </div>
         )}
       </div>
     </div>

@@ -4,6 +4,11 @@
   width: 80vw;
   padding: 0px 150px;
 }
+.notifications_container {
+    height: 75vh;
+    display: flex;
+    align-items: center;
+}
 .notification{
     display: flex;
     gap: 10px;

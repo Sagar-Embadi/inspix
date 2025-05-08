@@ -22,24 +22,28 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import Switch from '@mui/material/Switch';
+import Switch from "@mui/material/Switch";
 import { TbMessageReport } from "react-icons/tb";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Avatar, Dialog } from "@mui/material";
 import { ProfileSkeleton } from "@/components/Skeletons/ProfileSkeleton";
+import { HiDotsVertical } from "react-icons/hi";
 export function Profile() {
   const { id } = useParams();
   const [loggedUser, setLoggedUser] = useState({});
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {setShow(false);setOpen(false)};
+  const handleShow = () => {setShow(true);setOpen(true)};
   const [editData, setEditData] = useState({});
   const [update, setUpdate] = useContext(store);
   const [posts, setPosts] = useState([]);
   const [displayPosts, setDisplayPosts] = useState([]);
+  const [modalPost, setModalPost] = useState({})
   const navigate = useNavigate();
+  const [comment, setComment] = useState('')
   const notification = {
     type: "follow",
     fromUserId: loggedUser._id,
@@ -166,13 +170,18 @@ export function Profile() {
         <div>
           <div className="profile_details">
             <div className="profile_pic">
-              <Avatar 
-               src={data.profilePicture} alt="profile_photo" className="profile_img"/>
+              <Avatar
+                src={data.profilePicture}
+                alt="profile_photo"
+                className="profile_img"
+              />
             </div>
             <div className="profile_following">
               <div className="username">
                 <h1>{data.username}</h1>
-                {loggedUser._id == id &&<button onClick={handleShow}>Edit Profile</button>}
+                {loggedUser._id == id && (
+                  <button onClick={handleShow}>Edit Profile</button>
+                )}
                 {/* <button onClick={handleDelete}>DELETE</button> */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -196,6 +205,12 @@ export function Profile() {
                         </span>
                         <Switch />
                       </div>
+                      <DropdownMenuSeparator />
+                      {loggedUser._id == id && (
+                        <DropdownMenuItem onClick={handleShow}>
+                          Edit Profile
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
                         {" "}
@@ -269,9 +284,14 @@ export function Profile() {
             </div>
             <div className="post_section">
               {displayPosts.map((x, index) => {
+                console.log(x);
+                
                 return (
-                  <div className="post_card" key={index}>
-                    <img src={x.media} alt={data.caption} />
+                  <div className="post_card" key={index} >
+                    <img src={x.media} alt={data.caption}  onClick={()=>{
+                      setOpen(true)
+                      setModalPost(x)
+                    }}/>
                     {/* <p>Likes : {x.likes.length}</p>
                     <p>Comments : {x.comments.length}</p>
                     <Button
@@ -289,7 +309,7 @@ export function Profile() {
           </div>
         </div>
       ) : (
-        <ProfileSkeleton/>
+        <ProfileSkeleton />
       )}
       <Modal
         show={show}
@@ -369,6 +389,50 @@ export function Profile() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Single post Modal */}
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <div className="flex flex-col md:flex-row bg-white w-full h-[85vh] rounded-md overflow-hidden">
+        <div className="w-full md:w-1/2 bg-black flex justify-center items-center">
+          <img
+            src={modalPost.media} // Update with actual path
+            alt="Post"
+            className="object-contain max-h-full max-w-full"
+          />
+        </div>
+
+        <div className="w-full md:w-1/2 p-2 comments_div">
+          <div className="border-b-2 flex items-center" style={{justifyContent:'space-between',height:'50px'}}>
+            <h2>{data.username}</h2>
+            <HiDotsVertical style={{fontSize:25}}/>
+          </div>
+          {open && <div style={{height: '420px', overflowY:'scroll'}}>
+          
+           {modalPost.comments.length == 0 ? <div style={{textAlign:'center'}}>
+             <h4>No Comments</h4>
+             <span>Be the first one to comment</span>
+           </div> : modalPost.comments.map((comment, index) => (
+                  <div className="commentsModal" key={index}>
+                    <img
+                      src={comment.user.profilePicture}
+                      alt="Profile_Pic"
+                    />
+                    <div>
+                      <h4>{comment.user.username}</h4>
+                      <p>{comment.text}</p>
+                    </div>
+                  </div>
+                ))}
+            
+          </div>}
+          <div style={{height:'50px',padding:5}}>
+            <input type="text" placeholder="comment here" onChange={(e)=>setComment(e.target.value)} className="p-2 border-2 w-full rounded"/>
+          </div>
+        </div>
+        
+      </div>
+    </Dialog>
+
     </div>
   );
 }
